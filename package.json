@@ -35,6 +35,7 @@
     "grunt-jscs": "^1.0.0",
     "grunt-processhtml": "^0.3.3",
     "grunt-rev": "^0.1.0",
+    "grunt-surge": "^0.4.3",
     "grunt-usemin": "^3.0.0",
     "load-grunt-config": "^0.16.0",
     "time-grunt": "^1.0.0"

@@ -19,4 +19,16 @@ module.exports = function(grunt) {
       }
     }
   });
+ //  grunt.initConfig({
+ //   surge: {
+ //     'portfolio-go': {
+ //       options: {
+ //         project: 'dist/',
+ //         domain: 'portfolio-go.surge.sh'
+ //       }
+ //     }
+ //   }
+ // });
+ // grunt.loadNpmTasks('grunt-surge');
+ // grunt.registerTask('deploy', ['surge']);
 };

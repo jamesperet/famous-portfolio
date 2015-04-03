@@ -75,6 +75,11 @@ define(function(require, exports, module) {
 	  align: [0, 1]
 	});
 	
+	var menuBtnModifier = new StateModifier({
+	  origin: [0, 0],
+	  align: [0, 0]
+	});
+	
 	function _createButtons() {
 		var btnBack = new Surface({
 			size: [50,50],
@@ -98,8 +103,21 @@ define(function(require, exports, module) {
 				zIndex: 2
 			}
 		});
+		var btnMenu = new Surface({
+			size: [50,50],
+			content: '<<',
+			classes: ['btn-slideshow'],
+			properties: {
+				textAlign: 'center',
+				fontSize: '21px',
+				lineHeight: '50px',
+				zIndex: 2
+			}
+		});
+		
 	     this.add(nextBtnModifier).add(btnNext);
 		this.add(backBtnModifier).add(btnBack);
+		this.add(menuBtnModifier).add(btnMenu);
 		
 		btnNext.on('click', function() {
 			this._eventOutput.emit('click');
@@ -109,6 +127,11 @@ define(function(require, exports, module) {
 		btnBack.on('click', function() {
 			this._eventOutput.emit('click');
 			this.showPreviousSlide();
+		}.bind(this));
+		
+		btnMenu.on('click', function() {
+	   	  	 this._eventOutput.emit('load-index');
+	   		 console.log('Load Index Page');
 		}.bind(this));
 	}
 	
@@ -146,6 +169,6 @@ define(function(require, exports, module) {
    		}
    		this.showCurrentSlide(lightboxOpts);
 	};
-	
+
 	module.exports = SlideshowView;
 });

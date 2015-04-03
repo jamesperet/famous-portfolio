@@ -71,11 +71,32 @@ define(function(require, exports, module) {
 		});
 		
 		this.slides.push(indexView);
-		indexView.on('click', this.showNextSlide.bind(this));
 		var appView = this;
 		indexView.on('load-slideshow-1', function() {
 			console.log('loading slideshow 1');
-			appView.showNextSlide();
+			var lightboxOpts = {
+				inTransform: Transform.translate(window.innerWidth, 0, 0),
+				outTransform: Transform.translate(window.innerWidth *-1, 0, 0),
+				inTransition: { duration: 2500, curve: Easing.outBack },
+				outTransition: { duration: 900, curve: Easing.outBack },
+				inOpacity: 1,
+				outOpacity: 1,
+				overlap: true,
+			}
+			appView.showPage(1, lightboxOpts);
+		});
+		slideshowView.on('load-index', function() {
+			console.log('loading slideshow 1');
+			var lightboxOpts = {
+				inTransform: Transform.translate(window.innerWidth *-1, 0, 0),
+				outTransform: Transform.translate(window.innerWidth, 0, 0),
+				inTransition: { duration: 2500, curve: Easing.outBack },
+				outTransition: { duration: 900, curve: Easing.outBack },
+				inOpacity: 1,
+				outOpacity: 1,
+				overlap: true,
+			}
+			appView.showPage(0, lightboxOpts);
 		});
 		
 		this.slides.push(slideshowView);
@@ -92,18 +113,9 @@ define(function(require, exports, module) {
 	        });
 	};
 	
-	AppView.prototype.showNextSlide = function() {
-		this.currentIndex++;
+	AppView.prototype.showPage = function(page_number, lightboxOpts) {
+		this.currentIndex = page_number;
 		if (this.currentIndex === this.slides.length) this.currentIndex = 0;
-		var lightboxOpts = {
-			inTransform: Transform.translate(window.innerWidth, 0, 0),
-			outTransform: Transform.translate(window.innerWidth *-1, 0, 0),
-			inTransition: { duration: 2500, curve: Easing.outBack },
-			outTransition: { duration: 900, curve: Easing.outBack },
-			inOpacity: 1,
-			outOpacity: 1,
-			overlap: true,
-		}
 		this.showCurrentSlide(lightboxOpts);
 	};
 	

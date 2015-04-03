@@ -61,22 +61,17 @@ define(function(require, exports, module) {
        });
 
        this.mainNode.add(this.photoModifier).add(photo);
-	  
-	  photo.on('click', function() {
-	  	 this._eventOutput.emit('load-slideshow-1');
-		 console.log('load-slideshow-1');
-	  }.bind(this));
 
      }
 	
-	var backBtnModifier = new StateModifier({
+	var menuBtnModifier = new StateModifier({
 	  origin: [0, 1],
 	  align: [0, 1],
 	  opacity: 0,
 	});
     
 	function _createButtons() {
-		var btnBack = new Surface({
+		var btn1 = new Surface({
 			size: [true,true],
 			content: 'Desenhos',
 			classes: ['btn-menu'],
@@ -88,16 +83,16 @@ define(function(require, exports, module) {
 		
 
 	     //this.add(nextBtnModifier).add(btnNext);
-		this.add(backBtnModifier).add(btnBack);
+		this.add(menuBtnModifier).add(btn1);
 		
 		this.on('open-menu', function() {
 			console.log('opening menu');
-			backBtnModifier.setOpacity(  
+			menuBtnModifier.setOpacity(  
 				1,
 				{duration: 150, curve: 'easeInOut'}
 			);
 		
-			backBtnModifier.setTransform(  
+			menuBtnModifier.setTransform(  
 			    Transform.translate(0, -15, 0),
 			    {duration: 300, curve: 'easeInOut'},
 			    function() {
@@ -106,7 +101,10 @@ define(function(require, exports, module) {
 			    }
 			);
 		});
-		
+	   	btn1.on('click', function() {
+	   		 this._eventOutput.emit('load-slideshow-1');
+	   		 console.log('load-slideshow-1');
+	   	}.bind(this));
 		
 	     //
 		//btnNext.on('click', function() {

@@ -65,6 +65,16 @@ define(function(require, exports, module) {
 
        this.mainNode.add(this.photoModifier).add(photo);
 	  
+	  photo.on('deploy',function(){ 
+	      console.log('deployed image', this);
+	      if (this._currentTarget.complete) {
+	        console.log('Fully loaded on deploy');
+	      } else {
+	        this.on('load', function(e){
+	          console.log('completed loading = ' + this._currentTarget.complete);
+	        });
+	      }
+	    });
     }
 
     module.exports = SlideView;
