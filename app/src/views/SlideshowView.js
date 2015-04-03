@@ -60,7 +60,7 @@ define(function(require, exports, module) {
 		    });
 		
 		    this.slides.push(slide);
-		    slide.on('click', this.showNextSlide.bind(this));
+		    //slide.on('click', this.showNextSlide.bind(this));
 		}
 		this.showCurrentSlide();
 	}
