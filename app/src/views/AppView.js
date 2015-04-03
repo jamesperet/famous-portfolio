@@ -40,7 +40,15 @@ define(function(require, exports, module) {
 	
 	// Default options for EmptyView class
 	AppView.DEFAULT_OPTIONS = {};
-	var lightboxOpts = {};
+	var lightboxOpts = {
+			inTransform: Transform.translate(0, 0, 0),
+			outTransform: Transform.translate(window.innerWidth *-1, 0, 0),
+			inTransition: { duration: 1000, curve: Easing.outBack },
+			outTransition: { duration: 900, curve: Easing.outBack },
+			inOpacity: 0,
+			outOpacity: 1,
+			overlap: true
+	};
 	// Define your helper functions and prototype methods here
 	
 	
@@ -78,7 +86,10 @@ define(function(require, exports, module) {
 	AppView.prototype.showCurrentSlide = function(options) {
 	        var slide = this.slides[this.currentIndex];
 		   this.lightbox.setOptions(options)
-	        this.lightbox.show(slide);
+	        this.lightbox.show(slide, function(){
+	        	console.log('start menu animation')
+			slide._eventOutput.emit('open-menu');
+	        });
 	};
 	
 	AppView.prototype.showNextSlide = function() {
@@ -87,11 +98,11 @@ define(function(require, exports, module) {
 		var lightboxOpts = {
 			inTransform: Transform.translate(window.innerWidth, 0, 0),
 			outTransform: Transform.translate(window.innerWidth *-1, 0, 0),
-			inTransition: { duration: 1000, curve: Easing.outBack },
+			inTransition: { duration: 2500, curve: Easing.outBack },
 			outTransition: { duration: 900, curve: Easing.outBack },
 			inOpacity: 1,
 			outOpacity: 1,
-			overlap: true
+			overlap: true,
 		}
 		this.showCurrentSlide(lightboxOpts);
 	};

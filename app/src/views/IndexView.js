@@ -29,7 +29,8 @@ define(function(require, exports, module) {
 	   // saving a reference to the new node
 	   this.mainNode = this.add(this.rootModifier);
 	   
-	   _createPhoto.call(this);
+	   _background.call(this);
+	   _createButtons.call(this);
     }
 
     // Establishes prototype chain for EmptyView class to inherit from View
@@ -41,12 +42,12 @@ define(function(require, exports, module) {
 
     // Define your helper functions and prototype methods here
     
-    function _createPhoto() {
+    function _background() {
        var photoSize = this.options.size;
 
        var photo = new BkImageSurface({
            size: [undefined, undefined],
-           content: "https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/cave.jpg",
+           content: "https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/cave-1.jpg",
 		 sizeMode: BkImageSurface.SizeMode.ASPECTFILL,
            properties: {
                zIndex: 1
@@ -66,7 +67,58 @@ define(function(require, exports, module) {
 		 console.log('load-slideshow-1');
 	  }.bind(this));
 
-    }
+     }
+	
+	var backBtnModifier = new StateModifier({
+	  origin: [0, 1],
+	  align: [0, 1],
+	  opacity: 0,
+	});
+    
+	function _createButtons() {
+		var btnBack = new Surface({
+			size: [true,true],
+			content: 'Desenhos',
+			classes: ['btn-menu'],
+			properties: {
+				zIndex: 2
+			}
+		});
+		
+		
+
+	     //this.add(nextBtnModifier).add(btnNext);
+		this.add(backBtnModifier).add(btnBack);
+		
+		this.on('open-menu', function() {
+			console.log('opening menu');
+			backBtnModifier.setOpacity(  
+				1,
+				{duration: 150, curve: 'easeInOut'}
+			);
+		
+			backBtnModifier.setTransform(  
+			    Transform.translate(0, -15, 0),
+			    {duration: 300, curve: 'easeInOut'},
+			    function() {
+			        // callback when this is done
+				    console.log('yeah');
+			    }
+			);
+		});
+		
+		
+	     //
+		//btnNext.on('click', function() {
+		//	this._eventOutput.emit('click');
+		//	this.showNextSlide();
+		//}.bind(this));
+	     //
+		//btnBack.on('click', function() {
+		//	this._eventOutput.emit('click');
+		//	this.showPreviousSlide();
+		//}.bind(this));
+	}
 
     module.exports = IndexView;
 });
