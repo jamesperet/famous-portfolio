@@ -6,3 +6,13 @@ html {
   -webkit-backface-visibility: visible;
   backface-visibility: visible;
 }
+
+.btn-slideshow {
+	cursor: pointer;
+	background-color: white;
+}
+
+.btn-slideshow:hover {
+	background-color: #F2F2F2;
+	color: red;
+}

@@ -8,9 +8,10 @@ define(function(require, exports, module) {
 	var Surface = require('famous/core/Surface');
 	var Transform = require('famous/core/Transform');
 	var StateModifier = require('famous/modifiers/StateModifier');
-	
-	var SlideView = require('views/SlideView');
 	var Lightbox = require('famous/views/Lightbox');
+	var Easing = require('famous/transitions/Easing');
+	
+	var SlideView = require('views/SlideView');	
 	
 	function SlideshowView() {
 		View.apply(this, arguments);
@@ -25,6 +26,7 @@ define(function(require, exports, module) {
 		
 		_createLightbox.call(this);
 		_createSlides.call(this);
+		_createButtons.call(this);
 	}
 	
 	SlideshowView.prototype = Object.create(View.prototype);
@@ -33,10 +35,14 @@ define(function(require, exports, module) {
 	SlideshowView.DEFAULT_OPTIONS = {
 		size: [undefined, undefined],
 		data: undefined,
-		lightboxOpts: {}
 	};
 
 	// Define your helper functions and prototype methods here
+	
+	var backModifier = new StateModifier({
+	  // positions the background behind the tab surface
+	  transform: Transform.behind
+	});
 	
 	function _createLightbox() {
 	    this.lightbox = new Lightbox(this.options.lightboxOpts);
@@ -59,16 +65,87 @@ define(function(require, exports, module) {
 		this.showCurrentSlide();
 	}
 	
-	SlideshowView.prototype.showCurrentSlide = function() {
+	var nextBtnModifier = new StateModifier({
+	  origin: [1, 1],
+	  align: [1, 1]
+	});
+	
+	var backBtnModifier = new StateModifier({
+	  origin: [0, 1],
+	  align: [0, 1]
+	});
+	
+	function _createButtons() {
+		var btnBack = new Surface({
+			size: [50,50],
+			content: '<',
+			classes: ['btn-slideshow'],
+			properties: {
+				textAlign: 'center',
+				fontSize: '21px',
+				lineHeight: '50px',
+				zIndex: 2
+			}
+		});
+		var btnNext = new Surface({
+			size: [50,50],
+			content: '>',
+			classes: ['btn-slideshow'],
+			properties: {
+				textAlign: 'center',
+				fontSize: '21px',
+				lineHeight: '50px',
+				zIndex: 2
+			}
+		});
+	     this.add(nextBtnModifier).add(btnNext);
+		this.add(backBtnModifier).add(btnBack);
+		
+		btnNext.on('click', function() {
+			this._eventOutput.emit('click');
+			this.showNextSlide();
+		}.bind(this));
+		
+		btnBack.on('click', function() {
+			this._eventOutput.emit('click');
+			this.showPreviousSlide();
+		}.bind(this));
+	}
+	
+	SlideshowView.prototype.showCurrentSlide = function(options) {
 	        var slide = this.slides[this.currentIndex];
+		   this.lightbox.setOptions(options)
 	        this.lightbox.show(slide);
 	};
 	
 	SlideshowView.prototype.showNextSlide = function() {
-	        this.currentIndex++;
-	        if (this.currentIndex === this.slides.length) this.currentIndex = 0;
-	        this.showCurrentSlide();
-	    };
+		this.currentIndex++;
+		if (this.currentIndex === this.slides.length) this.currentIndex = 0;
+		var lightboxOpts = {
+			inTransform: Transform.translate(window.innerWidth, 0, 0),
+			outTransform: Transform.translate(window.innerWidth *-1, 0, 0),
+			inTransition: { duration: 1000, curve: Easing.outBack },
+			outTransition: { duration: 900, curve: Easing.outBack },
+			inOpacity: 1,
+			outOpacity: 1,
+			overlap: true
+		}
+		this.showCurrentSlide(lightboxOpts);
+	};
+	SlideshowView.prototype.showPreviousSlide = function() {
+		this.currentIndex--;
+		if (this.currentIndex === -1) this.currentIndex = this.slides.length - 1;
+   		var lightboxOpts = {
+   			inTransform: Transform.translate(window.innerWidth * -1, 0, 0),
+   			outTransform: Transform.translate(window.innerWidth, 0, 0),
+   			inTransition: { duration: 1000, curve: Easing.outBack },
+   			outTransition: { duration: 900, curve: Easing.outBack },
+   			inOpacity: 1,
+   			outOpacity: 1,
+   			overlap: true
+   		}
+   		this.showCurrentSlide(lightboxOpts);
+	};
 	
 	module.exports = SlideshowView;
 });

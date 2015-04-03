@@ -53,21 +53,18 @@ define(function(require, exports, module) {
            content: this.options.photoUrl,
 		 sizeMode: BkImageSurface.SizeMode.ASPECTFILL,
            properties: {
-               zIndex: 2
+               zIndex: 1
            }
        });
 
        this.photoModifier = new StateModifier({
            origin: [0.5, 0],
            align: [0.5, 0],
-           transform: Transform.translate(0, 0, 2)
+           transform: Transform.translate(0, 0, 0)
        });
 
        this.mainNode.add(this.photoModifier).add(photo);
-	  photo.on('click', function() {
-	      // the event output handler is used to broadcast outwards
-	      this._eventOutput.emit('click');
-	  }.bind(this));
+	  
     }
 
     module.exports = SlideView;

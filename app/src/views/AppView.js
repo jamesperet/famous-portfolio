@@ -21,7 +21,6 @@ define(function(require, exports, module) {
         });
 	   
 	   this.add(slideshowView);
-	   
     }
 
     // Establishes prototype chain for EmptyView class to inherit from View
