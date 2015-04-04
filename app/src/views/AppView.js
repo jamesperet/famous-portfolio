@@ -66,38 +66,49 @@ define(function(require, exports, module) {
 			data: this.options.data
 		});
 		
-		var slideshowView = new SlideshowView({
-		   data: this.options.data
-		});
-		
 		this.slides.push(indexView);
+		
 		var appView = this;
-		indexView.on('load-slideshow-1', function() {
-			console.log('loading slideshow 1');
-			var lightboxOpts = {
-				inTransform: Transform.translate(window.innerWidth, 0, 0),
-				outTransform: Transform.translate(window.innerWidth *-1, 0, 0),
-				inTransition: { duration: 2500, curve: Easing.outBack },
-				outTransition: { duration: 900, curve: Easing.outBack },
-				inOpacity: 1,
-				outOpacity: 1,
-				overlap: true,
-			}
-			appView.showPage(1, lightboxOpts);
-		});
-		slideshowView.on('load-index', function() {
-			console.log('loading slideshow 1');
-			var lightboxOpts = {
-				inTransform: Transform.translate(window.innerWidth *-1, 0, 0),
-				outTransform: Transform.translate(window.innerWidth, 0, 0),
-				inTransition: { duration: 2500, curve: Easing.outBack },
-				outTransition: { duration: 900, curve: Easing.outBack },
-				inOpacity: 1,
-				outOpacity: 1,
-				overlap: true,
-			}
-			appView.showPage(0, lightboxOpts);
-		});
+		
+		for (var i = 0; i < this.options.data.content.length; i++) {
+			
+			var slideshowView = new SlideshowView({
+			   data: this.options.data.content[i].slides
+			});
+			
+			this.slides.push(slideshowView);
+			
+			indexView.on('load-slideshow-' + i, function(e) {
+				e++;
+				var lightboxOpts = {
+					inTransform: Transform.translate(window.innerWidth, 0, 0),
+					outTransform: Transform.translate(window.innerWidth *-1, 0, 0),
+					inTransition: { duration: 1000, curve: Easing.outBack },
+					outTransition: { duration: 900, curve: Easing.outBack },
+					inOpacity: 1,
+					outOpacity: 1,
+					overlap: true,
+				}
+				console.log('loading page ' + e);
+				appView.showPage(e, lightboxOpts);
+			});
+			
+			slideshowView.on('load-index', function() {
+				console.log('loading Index');
+				var lightboxOpts = {
+					inTransform: Transform.translate(window.innerWidth *-1, 0, 0),
+					outTransform: Transform.translate(window.innerWidth, 0, 0),
+					inTransition: { duration: 1000, curve: Easing.outBack },
+					outTransition: { duration: 900, curve: Easing.outBack },
+					inOpacity: 1,
+					outOpacity: 1,
+					overlap: true,
+				}
+				appView.showPage(0, lightboxOpts);
+			});
+		};
+		
+		
 		
 		this.slides.push(slideshowView);
 		
@@ -115,7 +126,6 @@ define(function(require, exports, module) {
 	
 	AppView.prototype.showPage = function(page_number, lightboxOpts) {
 		this.currentIndex = page_number;
-		if (this.currentIndex === this.slides.length) this.currentIndex = 0;
 		this.showCurrentSlide(lightboxOpts);
 	};
 	

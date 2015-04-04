@@ -64,47 +64,50 @@ define(function(require, exports, module) {
 
      }
 	
-	var menuBtnModifier = new StateModifier({
-	  origin: [0, 1],
-	  align: [0, 1],
-	  opacity: 0,
-	});
+	
     
 	function _createButtons() {
-		var btn1 = new Surface({
-			size: [true,true],
-			content: 'Desenhos',
-			classes: ['btn-menu'],
-			properties: {
-				zIndex: 2
-			}
-		});
-		
-		
+		var btns = [];
+		var menuBtnModifier = [];
+		for (var i = 0; i < this.options.data.content.length; i++) {
+			var title = this.options.data.content[i].title
+			var btn = new Surface({
+				size: [120, true],
+				content: title,
+				classes: ['btn-menu'],
+				attributes: { id: [i] },
+				properties: {
+					zIndex: 2
+				}
+			});
+			btns.push(btn);
+			btn.options.index = i
+			
+			menuBtnModifier[i] = new StateModifier({
+			  origin: [0, 1],
+			  align: [0, 1],
+			  opacity: 0,
+			  transform: Transform.translate(135 * i, 100, 0)
+			});
+			
 
-	     //this.add(nextBtnModifier).add(btnNext);
-		this.add(menuBtnModifier).add(btn1);
+		     //this.add(nextBtnModifier).add(btnNext);
+			this.add(menuBtnModifier[i]).add(btn);
 		
+		   	btn.on('click', function(e) {
+		   		 this._eventOutput.emit('load-slideshow-' + e.toElement.id, e.toElement.id);
+		   		 console.log("clicked on " + e.toElement.id);
+		   	}.bind(this));
+			
+			console.log("finished pre-building menu");
+			console.log(i);
+		};
+		console.log(btns.length);
+		
+		var i = 0
 		this.on('open-menu', function() {
-			console.log('opening menu');
-			menuBtnModifier.setOpacity(  
-				1,
-				{duration: 150, curve: 'easeInOut'}
-			);
-		
-			menuBtnModifier.setTransform(  
-			    Transform.translate(0, -15, 0),
-			    {duration: 300, curve: 'easeInOut'},
-			    function() {
-			        // callback when this is done
-				    console.log('yeah');
-			    }
-			);
+			_animateBtns(i, menuBtnModifier, this.options.data.content.length);
 		});
-	   	btn1.on('click', function() {
-	   		 this._eventOutput.emit('load-slideshow-1');
-	   		 console.log('load-slideshow-1');
-	   	}.bind(this));
 		
 	     //
 		//btnNext.on('click', function() {
@@ -116,6 +119,25 @@ define(function(require, exports, module) {
 		//	this._eventOutput.emit('click');
 		//	this.showPreviousSlide();
 		//}.bind(this));
+	}
+	
+	function _animateBtns(i, menuBtnModifier, length) {
+		if (i < length) {
+			console.log('opening menu ' + i);
+			menuBtnModifier[i].setOpacity(  
+				1,
+				{duration: 100, curve: 'easeInOut'}
+			);
+
+			menuBtnModifier[i].setTransform(  
+			    Transform.translate(135 * i, -15, 0),
+			    {duration: 200, curve: 'easeInOut'},
+			    function() {
+				    i++;
+				    _animateBtns(i, menuBtnModifier, length);
+			    }
+			);
+		}
 	}
 
     module.exports = IndexView;

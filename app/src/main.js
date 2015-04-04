@@ -12,17 +12,17 @@ define(function(require, exports, module) {
 	
 	// import the AppView class using require
 	var AppView = require('views/AppView');
-	var SlideData = require('data/SlideData');
+	var Data = require('data/Data');
 	
 	// simple Get request to the Picasa api with callback
-	Utility.loadURL(SlideData.getUrl(), initApp);
+	//Utility.loadURL(SlideData.getUrl(), initApp);	
 	
 	var mainContext = Engine.createContext();
 	
+	initApp(Data);
+	
 	function initApp(data) {
-		 //console.log(data);
-		 // parses out reponse data and retrieves array of urls
-		 data = SlideData.parse(data);
+		 console.log(data);
      	
 		 // instantiates AppView with our url data
 		 var appView = new AppView({ data : data });
