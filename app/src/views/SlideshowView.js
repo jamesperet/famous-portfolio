@@ -53,10 +53,10 @@ define(function(require, exports, module) {
 		this.slides = [];
 		this.currentIndex = 0;
 		
-		for (var i = 0; i < this.options.data.length; i++) {
+		for (var i = 0; i < this.options.slides.length; i++) {
 		    var slide = new SlideView({
 		        size: this.options.size,
-		        photoUrl: this.options.data[i]
+		        photoUrl: this.options.slides[i]
 		    });
 		
 		    this.slides.push(slide);

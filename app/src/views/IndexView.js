@@ -10,6 +10,7 @@ define(function(require, exports, module) {
     var StateModifier = require('famous/modifiers/StateModifier');
     var EventHandler = require('famous/core/EventHandler');
     var BkImageSurface = require('famous-bkimagesurface');
+    var Timer = require('famous/utilities/Timer');
 
 	var eventHandler = new EventHandler();
 
@@ -53,6 +54,8 @@ define(function(require, exports, module) {
                zIndex: 1
            }
        });
+	  
+	  this.background = photo;
 
        this.photoModifier = new StateModifier({
            origin: [0.5, 0],
@@ -67,8 +70,8 @@ define(function(require, exports, module) {
 	
     
 	function _createButtons() {
-		var btns = [];
-		var menuBtnModifier = [];
+		this.options.btns = [];
+		this.options.menuBtnModifier = [];
 		for (var i = 0; i < this.options.data.content.length; i++) {
 			var title = this.options.data.content[i].title
 			var btn = new Surface({
@@ -80,10 +83,9 @@ define(function(require, exports, module) {
 					zIndex: 2
 				}
 			});
-			btns.push(btn);
-			btn.options.index = i
+			this.options.btns.push(btn);
 			
-			menuBtnModifier[i] = new StateModifier({
+			this.options.menuBtnModifier[i] = new StateModifier({
 			  origin: [0, 1],
 			  align: [0, 1],
 			  opacity: 0,
@@ -92,21 +94,19 @@ define(function(require, exports, module) {
 			
 
 		     //this.add(nextBtnModifier).add(btnNext);
-			this.add(menuBtnModifier[i]).add(btn);
+			this.add(this.options.menuBtnModifier[i]).add(btn);
 		
 		   	btn.on('click', function(e) {
 		   		 this._eventOutput.emit('load-slideshow-' + e.toElement.id, e.toElement.id);
 		   		 console.log("clicked on " + e.toElement.id);
 		   	}.bind(this));
 			
-			console.log("finished pre-building menu");
-			console.log(i);
+			console.log("finished pre-building btn " + i);
 		};
-		console.log(btns.length);
 		
 		var i = 0
 		this.on('open-menu', function() {
-			_animateBtns(i, menuBtnModifier, this.options.data.content.length);
+			_animateBtns(i, this.options.menuBtnModifier, this.options.data.content.length);
 		});
 		
 	     //
@@ -136,6 +136,20 @@ define(function(require, exports, module) {
 				    i++;
 				    _animateBtns(i, menuBtnModifier, length);
 			    }
+			);
+		}
+	}
+	
+	IndexView.prototype.resetBtns = function(btns, menuBtnModifier){
+		
+          this.photoModifier.setOpacity(0);
+		this.photoModifier.setOpacity(1, {duration: 800, curve: 'easeInOut'});
+
+		for (var i = 0; i < btns.length; i++) {
+			menuBtnModifier[i].setOpacity(0);
+			console.log(menuBtnModifier[i].getTransform()),
+			menuBtnModifier[i].setTransform(
+				Transform.translate(menuBtnModifier[i].getTransform()[12], 15, 0)
 			);
 		}
 	}

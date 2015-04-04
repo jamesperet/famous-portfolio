@@ -65,6 +65,7 @@ define(function(require, exports, module) {
 		var indexView = new IndexView({
 			data: this.options.data
 		});
+		this.options.indexView = indexView;
 		
 		this.slides.push(indexView);
 		
@@ -73,7 +74,9 @@ define(function(require, exports, module) {
 		for (var i = 0; i < this.options.data.content.length; i++) {
 			
 			var slideshowView = new SlideshowView({
-			   data: this.options.data.content[i].slides
+				indexView: indexView,
+				data: this.options.data,
+			     slides: this.options.data.content[i].slides
 			});
 			
 			this.slides.push(slideshowView);
@@ -104,6 +107,10 @@ define(function(require, exports, module) {
 					outOpacity: 1,
 					overlap: true,
 				}
+				console.log(this);
+				var index = this.options.indexView;
+				console.log(index);
+				index.resetBtns(index.options.btns, index.options.menuBtnModifier);
 				appView.showPage(0, lightboxOpts);
 			});
 		};
