@@ -10,7 +10,9 @@ define(function(require, exports, module) {
     var StateModifier = require('famous/modifiers/StateModifier');
     var EventHandler = require('famous/core/EventHandler');
     var BkImageSurface = require('famous-bkimagesurface');
+    var VideoSurface = require('famous/surfaces/VideoSurface');
     var Timer = require('famous/utilities/Timer');
+    require('jquery')
 
 	var eventHandler = new EventHandler();
 
@@ -44,17 +46,42 @@ define(function(require, exports, module) {
     // Define your helper functions and prototype methods here
     
     function _background() {
+       // var photoSize = this.options.size;
+ //
+ //       var photo = new BkImageSurface({
+ //           size: [undefined, undefined],
+ //           content: "https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/cave-1.jpg",
+ // 		 sizeMode: BkImageSurface.SizeMode.ASPECTFILL,
+ //           properties: {
+ //               zIndex: 1
+ //           }
+ //       });
+ //
+ // 	  this.background = photo;
+ //
+ //       this.photoModifier = new StateModifier({
+ //           origin: [0.5, 0],
+ //           align: [0.5, 0],
+ //           transform: Transform.translate(0, 0, 0)
+ //       });
+ //
+ //       this.mainNode.add(this.photoModifier).add(photo);
+	
        var photoSize = this.options.size;
 
-       var photo = new BkImageSurface({
+       var photo = new VideoSurface({
            size: [undefined, undefined],
-           content: "https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/cave-1.jpg",
-		 sizeMode: BkImageSurface.SizeMode.ASPECTFILL,
+		 autoplay: true,
+		 src: "bg_2.mov",
+		 classes: ['bg_video'],
            properties: {
-               zIndex: 1
+               zIndex: 1,
            }
        });
-	  
+	  photo.setAttributes({ 
+	        loop: '' 
+	      });
+
 	  this.background = photo;
 
        this.photoModifier = new StateModifier({
@@ -64,6 +91,7 @@ define(function(require, exports, module) {
        });
 
        this.mainNode.add(this.photoModifier).add(photo);
+	  $(".bg_video").attr(["loop"]);
 
      }
 	
@@ -75,7 +103,7 @@ define(function(require, exports, module) {
 		for (var i = 0; i < this.options.data.content.length; i++) {
 			var title = this.options.data.content[i].title
 			var btn = new Surface({
-				size: [120, true],
+				size: [true, true],
 				content: title,
 				classes: ['btn-menu'],
 				attributes: { id: [i] },
@@ -86,10 +114,10 @@ define(function(require, exports, module) {
 			this.options.btns.push(btn);
 			
 			this.options.menuBtnModifier[i] = new StateModifier({
-			  origin: [0, 1],
-			  align: [0, 1],
+			  origin: [0, 0],
+			  align: [0, 0],
 			  opacity: 0,
-			  transform: Transform.translate(135 * i, 100, 0)
+			  transform: Transform.translate(0, 100 + 20 * i, 0)
 			});
 			
 
@@ -130,7 +158,7 @@ define(function(require, exports, module) {
 			);
 
 			menuBtnModifier[i].setTransform(  
-			    Transform.translate(135 * i, -15, 0),
+			    Transform.translate(0, 100 + 20 * i, 0),
 			    {duration: 200, curve: 'easeInOut'},
 			    function() {
 				    i++;
@@ -149,7 +177,7 @@ define(function(require, exports, module) {
 			menuBtnModifier[i].setOpacity(0);
 			console.log(menuBtnModifier[i].getTransform()),
 			menuBtnModifier[i].setTransform(
-				Transform.translate(menuBtnModifier[i].getTransform()[12], 15, 0)
+				Transform.translate(menuBtnModifier[i].getTransform()[12], 100 + 20 * i, 0)
 			);
 		}
 	}

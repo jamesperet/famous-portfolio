@@ -41,13 +41,13 @@ define(function(require, exports, module) {
 	// Default options for EmptyView class
 	AppView.DEFAULT_OPTIONS = {};
 	var lightboxOpts = {
-			inTransform: Transform.translate(0, 0, 0),
-			outTransform: Transform.translate(window.innerWidth *-1, 0, 0),
+			inTransform: Transform.translate(0, 0, 1),
+			outTransform: Transform.translate(0, 0, 1),
 			inTransition: { duration: 1000, curve: Easing.outBack },
 			outTransition: { duration: 900, curve: Easing.outBack },
 			inOpacity: 0,
 			outOpacity: 1,
-			overlap: true
+			overlap: false
 	};
 	// Define your helper functions and prototype methods here
 	
@@ -84,12 +84,12 @@ define(function(require, exports, module) {
 			indexView.on('load-slideshow-' + i, function(e) {
 				e++;
 				var lightboxOpts = {
-					inTransform: Transform.translate(window.innerWidth, 0, 0),
-					outTransform: Transform.translate(window.innerWidth *-1, 0, 0),
+					inTransform: Transform.translate(0, 0, 1),
+					outTransform: Transform.translate(0, 0, 0),
 					inTransition: { duration: 1000, curve: Easing.outBack },
-					outTransition: { duration: 900, curve: Easing.outBack },
-					inOpacity: 1,
-					outOpacity: 1,
+					outTransition: { duration: 1000, curve: Easing.outBack },
+					inOpacity: 0,
+					outOpacity: 0,
 					overlap: true,
 				}
 				console.log('loading page ' + e);
@@ -99,12 +99,12 @@ define(function(require, exports, module) {
 			slideshowView.on('load-index', function() {
 				console.log('loading Index');
 				var lightboxOpts = {
-					inTransform: Transform.translate(window.innerWidth *-1, 0, 0),
-					outTransform: Transform.translate(window.innerWidth, 0, 0),
+					inTransform: Transform.translate(0, 0, 0),
+					outTransform: Transform.translate(0, 0, 0),
 					inTransition: { duration: 1000, curve: Easing.outBack },
 					outTransition: { duration: 900, curve: Easing.outBack },
 					inOpacity: 1,
-					outOpacity: 1,
+					outOpacity: 0,
 					overlap: true,
 				}
 				console.log(this);
