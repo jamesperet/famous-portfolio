@@ -66,6 +66,7 @@ define(function(require, exports, module) {
 			data: this.options.data
 		});
 		this.options.indexView = indexView;
+		this.options.menuLoaded = false;
 		
 		this.slides.push(indexView);
 		
@@ -100,40 +101,57 @@ define(function(require, exports, module) {
 				console.log('loading Index');
 				var lightboxOpts = {
 					inTransform: Transform.translate(0, 0, 0),
-					outTransform: Transform.translate(0, 0, 0),
+					outTransform: Transform.translate(0, 0, 1),
 					inTransition: { duration: 1000, curve: Easing.outBack },
-					outTransition: { duration: 900, curve: Easing.outBack },
-					inOpacity: 1,
+					outTransition: { duration: 1000, curve: Easing.outBack },
+					inOpacity: 0,
 					outOpacity: 0,
-					overlap: true,
+					overlap: false,
 				}
 				console.log(this);
 				var index = this.options.indexView;
 				console.log(index);
-				index.resetBtns(index.options.btns, index.options.menuBtnModifier);
+				//index.resetBtns(index.options.btns, index.options.menuBtnModifier);
 				appView.showPage(0, lightboxOpts);
 			});
+		};
+		
+		for (var i = 0; i < this.options.data.navigation.length; i++) {
+			if(this.options.data.navigation[i].type == 'sub-nav'){
+				indexView.on('load-submenu-' + this.options.data.navigation[i].id, function(e) {
+					for(var i = 0; i < this.options.data.navigation.length; i++ ){
+						if (this.options.data.navigation[i].id == e){
+							data = this.options.data.navigation[i];
+						}
+					}
+					indexView.createButtons(data, 1);
+					indexView._eventOutput.emit('open-menu-1');
+				});
+			}
 		};
 		
 		
 		
 		this.slides.push(slideshowView);
 		
-		this.showCurrentSlide(lightboxOpts);
+		this.showCurrentSlide(lightboxOpts, true);
 	}
 	
-	AppView.prototype.showCurrentSlide = function(options) {
+	AppView.prototype.showCurrentSlide = function(options, loadMenu) {
+		   loadMenu = loadMenu || false;
 	        var slide = this.slides[this.currentIndex];
 		   this.lightbox.setOptions(options)
 	        this.lightbox.show(slide, function(){
 	        	console.log('start menu animation')
-			slide._eventOutput.emit('open-menu');
+		   if(loadMenu == true)
+			slide._eventOutput.emit('open-menu-0');
 	        });
 	};
 	
-	AppView.prototype.showPage = function(page_number, lightboxOpts) {
+	AppView.prototype.showPage = function(page_number, lightboxOpts, loadMenu) {
+		loadMenu = loadMenu || false;
 		this.currentIndex = page_number;
-		this.showCurrentSlide(lightboxOpts);
+		this.showCurrentSlide(lightboxOpts, loadMenu);
 	};
 	
 	module.exports = AppView;
