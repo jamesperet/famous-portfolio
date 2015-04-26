@@ -38,6 +38,11 @@ define(function(require, exports, module) {
 	   
 	   this.options.btns = new Array;
 	   this.options.menuBtnModifier = new Array;
+	   
+	   indexView = this;
+	   
+	   this.level1_btns = [];
+	   this.level1_menuBtnModifier = []
     }
 
     // Establishes prototype chain for EmptyView class to inherit from View
@@ -111,6 +116,10 @@ define(function(require, exports, module) {
 		this.options.menuLevel = level
 		btns = [];
 		menuBtnModifier = [];
+		if(level == 1){
+			this.level1_btns = [];
+			this.level1_menuBtnModifier = []
+		}
 		for (var i = 0; i < data.navigation.length; i++) {
 			var title = data.navigation[i].title
 			var btn = new Surface({
@@ -123,15 +132,18 @@ define(function(require, exports, module) {
 				}
 			});
 			btns.push(btn);
-			//this.options.btns.push(btn)
-			
+
 			menuBtnModifier[i] = new StateModifier({
 			  origin: [0, 0],
 			  align: [0, 0],
 			  opacity: 0,
 			  transform: Transform.translate(120 * level, 100 + (20 * i), 0)
 			});
-			//this.options.menuBtnModifier.push(menuBtnModifier[i])
+			
+			if(level == 1){
+				this.level1_btns.push(btn)
+				this.level1_menuBtnModifier.push(menuBtnModifier[i])
+			}
 
 			this.add(menuBtnModifier[i]).add(btn);
 			
@@ -139,12 +151,10 @@ define(function(require, exports, module) {
 		   		btn.on('click', function(e) {
 		   			 this._eventOutput.emit('load-slideshow-' + e.toElement.id, e.toElement.id);
 		   			 console.log("clicked on " + e.toElement.id);
+					 console.log(this);
 		   		}.bind(this));
 			} else if (data.navigation[i].type == 'sub-nav') {
-		   		btn.on('click', function(e) {
-		   			 this._eventOutput.emit('load-submenu-' + e.toElement.id, e.toElement.id);
-		   			 console.log("clicked on " + e.toElement.id);
-		   		}.bind(this));
+		   		btn.on('click', loadSubmenuEvent);
 			}
 			
 			console.log("finished pre-building btn " + i + ' level ' + level);
@@ -166,6 +176,41 @@ define(function(require, exports, module) {
 		//	this._eventOutput.emit('click');
 		//	this.showPreviousSlide();
 		//}.bind(this));
+	}
+	
+	var loadSubmenuEvent = function(e) {
+		console.log("clicked on " + e.toElement.id);
+		indexView._eventOutput.emit('load-submenu-' + e.toElement.id, e.toElement.id);
+	 	this.removeListener('click', loadSubmenuEvent);
+		this.on('click', closeSubmenuEvent);
+	}
+	
+	var closeSubmenuEvent = function(e) {
+		console.log("clicked on close " + e.toElement.id);
+		indexView._eventOutput.emit('close-submenu-' + e.toElement.id, e.toElement.id);
+		this.removeListener('click', closeSubmenuEvent);
+		this.on('click', loadSubmenuEvent);
+	}
+	
+	IndexView.prototype.closeSubmenu = function(i, menuBtnModifier, menuLength, level) {
+		if (i < menuLength) {
+			menuBtnModifier[i].setOpacity(  
+				0,
+				{duration: 100}
+			);
+
+			menuBtnModifier[i].setTransform(  
+			    Transform.translate(120 * level, 100 + (20 * i), 0),
+			    {duration: 100},
+			    function() {
+				    i++;
+				    if (i < menuLength) {
+					    console.log('level ' + level + ' | i ' + i)
+				    		indexView.closeSubmenu(i, menuBtnModifier, menuLength, level);
+			         }
+			    }
+			);
+		}
 	}
 	
 	function _animateBtns(i, menuBtnModifier, menuLength, level) {

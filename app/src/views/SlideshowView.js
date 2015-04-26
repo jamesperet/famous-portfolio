@@ -58,7 +58,7 @@ define(function(require, exports, module) {
 		        size: this.options.size,
 		        photoUrl: this.options.slides[i]
 		    });
-		
+		    console.log('-> Creating slide with image: ' + this.options.slides[i])
 		    this.slides.push(slide);
 		    //slide.on('click', this.showNextSlide.bind(this));
 		}
@@ -120,11 +120,13 @@ define(function(require, exports, module) {
 		this.add(menuBtnModifier).add(btnMenu);
 		
 		btnNext.on('click', function() {
+			console.log('Next Slide');
 			this._eventOutput.emit('click');
 			this.showNextSlide();
 		}.bind(this));
 		
 		btnBack.on('click', function() {
+			console.log('Previous Slide');
 			this._eventOutput.emit('click');
 			this.showPreviousSlide();
 		}.bind(this));

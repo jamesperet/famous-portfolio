@@ -17,6 +17,7 @@ define(function(require, exports, module) {
 				"id"     : "2",
 	    			"slides" : [
 					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/escultura_01.jpg",
+					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png"
 	    			]
 			},
 		     { 
@@ -24,6 +25,7 @@ define(function(require, exports, module) {
 				"id"     : "3",
 	    			"slides" : [
 					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png",
+					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
 	    			]
 			},
 		     { 
@@ -31,6 +33,7 @@ define(function(require, exports, module) {
 				"id"     : "4",
 	    			"slides" : [
 					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png",
+					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
 	    			]
 			},
 		     { 
@@ -38,6 +41,7 @@ define(function(require, exports, module) {
 				"id"     : "5",
 	    			"slides" : [
 					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png",
+					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
 	    			]
 			},
 		     { 
@@ -45,6 +49,7 @@ define(function(require, exports, module) {
 				"id"     : "6",
 	    			"slides" : [
 					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png",
+					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
 	    			]
 			},
 		     { 
@@ -52,6 +57,7 @@ define(function(require, exports, module) {
 				"id"     : "7",
 	    			"slides" : [
 					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png",
+					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
 	    			]
 			}
 	    ],

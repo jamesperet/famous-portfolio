@@ -66,7 +66,6 @@ define(function(require, exports, module) {
 			data: this.options.data
 		});
 		this.options.indexView = indexView;
-		this.options.menuLoaded = false;
 		
 		this.slides.push(indexView);
 		
@@ -122,13 +121,19 @@ define(function(require, exports, module) {
 					for(var i = 0; i < this.options.data.navigation.length; i++ ){
 						if (this.options.data.navigation[i].id == e){
 							data = this.options.data.navigation[i];
+							indexView.on('close-submenu-' + this.options.data.navigation[i].id, function(e) {
+								indexView.closeSubmenu(0, indexView.level1_menuBtnModifier, indexView.level1_btns.length, 1);
+							});
 						}
 					}
 					indexView.createButtons(data, 1);
 					indexView._eventOutput.emit('open-menu-1');
+					
 				});
 			}
 		};
+		
+		
 		
 		
 		
@@ -143,8 +148,9 @@ define(function(require, exports, module) {
 		   this.lightbox.setOptions(options)
 	        this.lightbox.show(slide, function(){
 	        	console.log('start menu animation')
-		   if(loadMenu == true)
-			slide._eventOutput.emit('open-menu-0');
+		   	if(loadMenu == true){
+				slide._eventOutput.emit('open-menu-0');
+			}
 	        });
 	};
 	
