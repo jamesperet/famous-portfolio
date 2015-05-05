@@ -86,8 +86,30 @@ define(function(require, exports, module) {
 		    },
 		    {
 		    		"title"  : "Esculturas",
-				"type"   : "content",
-			     "id"     : "4"
+				"type"   : "sub-nav",
+			     "id"     : "102",
+				"navigation" : [
+					{
+			    			"title"  : "Carvão & Tule",
+						"type"   : "content",
+						"id"     : "1"
+					},
+					{
+			    			"title"  : "Sono (Vidros)",
+						"type"   : "content",
+						"id"     : "2"
+					},
+					{
+			    			"title"  : "Relevos",
+						"type"   : "content",
+						"id"     : "3"
+					},
+					{
+			    			"title"  : "Cut-outs",
+						"type"   : "content",
+						"id"     : "3"
+					}
+				]
 		    },
 		    {
 		    		"title"  : "Poemas",

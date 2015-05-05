@@ -38,11 +38,10 @@ define(function(require, exports, module) {
 	   
 	   this.options.btns = new Array;
 	   this.options.menuBtnModifier = new Array;
+	   this.options.submenu1_open = false
 	   
 	   indexView = this;
-	   
-	   this.level1_btns = [];
-	   this.level1_menuBtnModifier = []
+
     }
 
     // Establishes prototype chain for EmptyView class to inherit from View
@@ -155,6 +154,7 @@ define(function(require, exports, module) {
 		   		}.bind(this));
 			} else if (data.navigation[i].type == 'sub-nav') {
 		   		btn.on('click', loadSubmenuEvent);
+				console.log(this.level0_submenus);
 			}
 			
 			console.log("finished pre-building btn " + i + ' level ' + level);
@@ -179,10 +179,17 @@ define(function(require, exports, module) {
 	}
 	
 	var loadSubmenuEvent = function(e) {
+		if(indexView.options.submenu1_open == true){
+			indexView.closeSubmenu(0, indexView.level1_menuBtnModifier, indexView.level1_menuBtnModifier.length, 1)
+			indexView.options.submenu1_open = false;
+		}
 		console.log("clicked on " + e.toElement.id);
 		indexView._eventOutput.emit('load-submenu-' + e.toElement.id, e.toElement.id);
 	 	this.removeListener('click', loadSubmenuEvent);
 		this.on('click', closeSubmenuEvent);
+		indexView.options.submenu1_open = true;
+		indexView.options.submenu1 = this;
+		indexView.options.submenu1_id = e.toElement.id;
 	}
 	
 	var closeSubmenuEvent = function(e) {
@@ -190,6 +197,7 @@ define(function(require, exports, module) {
 		indexView._eventOutput.emit('close-submenu-' + e.toElement.id, e.toElement.id);
 		this.removeListener('click', closeSubmenuEvent);
 		this.on('click', loadSubmenuEvent);
+		indexView.options.submenu1_open = false;
 	}
 	
 	IndexView.prototype.closeSubmenu = function(i, menuBtnModifier, menuLength, level) {
