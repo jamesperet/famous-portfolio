@@ -87,7 +87,7 @@ define(function(require, exports, module) {
           var photo = new VideoSurface({
               size: [undefined, undefined],
    		 autoplay: true,
-   		 src: "bg_3.mov",
+   		 src: "content/videos/bg_1.mov",
    		 classes: ['bg_video'],
               properties: {
                   zIndex: 1,

@@ -6,58 +6,58 @@ define(function(require, exports, module) {
 				"title"  : "Desenhos",
 				"id"     : "1",
 	    			"slides" : [
-	    				"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/A3.jpg",
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/escultura_01.jpg",
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png"
+	    				"content/images/triptico.jpg",
+					"content/images/A3.jpg",
+					"content/images/escultura_01.jpg",
+					"content/images/trifonia-01.png"
 	    			]
 			},
 		     { 
 				"title"  : "Esculturas",
 				"id"     : "2",
 	    			"slides" : [
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/escultura_01.jpg",
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png"
+					"content/images/escultura_01.jpg",
+					"content/images/trifonia-01.png"
 	    			]
 			},
 		     { 
 				"title"  : "Poemas",
 				"id"     : "3",
 	    			"slides" : [
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png",
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
+					"content/images/trifonia-01.png",
+					"content/images/triptico.jpg",
 	    			]
 			},
 		     { 
 				"title"  : "Filmes",
 				"id"     : "4",
 	    			"slides" : [
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png",
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
+					"content/images/trifonia-01.png",
+					"content/images/triptico.jpg",
 	    			]
 			},
 		     { 
 				"title"  : "Fotos Contexto Humano",
 				"id"     : "5",
 	    			"slides" : [
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png",
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
+					"content/images/trifonia-01.png",
+					"content/images/triptico.jpg",
 	    			]
 			},
 		     { 
 				"title"  : "Textos Críticos",
 				"id"     : "6",
 	    			"slides" : [
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png",
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
+					"content/images/trifonia-01.png",
+					"content/images/triptico.jpg",
 	    			]
 			},
 		     { 
 				"title"  : "Currículo",
 				"id"     : "7",
 	    			"slides" : [
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/trifonia-01.png",
-					"https://s3-sa-east-1.amazonaws.com/j1x/projects/portfolio-go/triptico.jpg",
+					"content/images/trifonia-01.png",
+					"content/images/triptico.jpg",
 	    			]
 			}
 	    ],
