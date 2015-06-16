@@ -11,7 +11,7 @@ define(function(require, exports, module) {
 	var EventHandler = require('famous/core/EventHandler');
 	var Lightbox = require('famous/views/Lightbox');
 	var Easing = require('famous/transitions/Easing');
-	
+
 	var IndexView = require('views/IndexView');
 	var SlideshowView = require('views/SlideshowView');
 	
@@ -27,10 +27,12 @@ define(function(require, exports, module) {
 		    origin: [0.5, 0],
 		    align: [0.5, 0]
 		});
-		
+	
 		this.mainNode = this.add(this.rootModifier);
 		_createLightbox.call(this);
 		_createSlides.call(this);
+		
+		
 
 	}
 	

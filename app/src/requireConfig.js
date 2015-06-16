@@ -9,7 +9,8 @@ require.config({
         almond: '../lib/almond/almond',
         'famous-bkimagesurface': '../lib/famous-bkimagesurface/BkImageSurface',
         jquery: '../lib/jquery/dist/jquery',
-        defiant: '../lib/defiant.js/dist/defiant-latest.min'
+        defiant: '../lib/defiant.js/dist/defiant-latest.min',
+        preloadjs: '../lib/preloadjs/dist/preload'
     },
     packages: [
         {
